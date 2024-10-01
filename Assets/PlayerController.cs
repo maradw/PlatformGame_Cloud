@@ -33,43 +33,24 @@ public class PlayerController : MonoBehaviour
     {
         if (jump.performed)
         {
-            myRBD.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+             myRBD.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
         }
     }
     void Update()
     {
         // Aquí puedes manejar la entrada para saltar
-        if (isGrounded && Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            Jump();
-        }
-
-        // Verifica si el jugador está en el suelo
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, groundLayer);
+       
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ghost")
-        {
-            OnCollisionGhost?.Invoke(5);
-        }
+      
     }
-    private void Jump()
-    {
-       
-    }
-
 
    
     public void FixedUpdate()
     {
-        myRBD.velocity = new Vector2(_horizontal * velocityModifier, _vertical * velocityModifier);
+        myRBD.velocity = new Vector2(_horizontal * velocityModifier, myRBD.velocity.y);
     }
-    private void OnDrawGizmos()
-    {
-        // Visualiza el Raycast en la escena
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * 0.1f);
-    }
+   
 }
