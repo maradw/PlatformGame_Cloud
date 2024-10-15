@@ -3,35 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public Sprite backcardSprite;
-    private bool firstGuess, secondGuess;
-   // public CardInfoSO[] cardPool;
-    public GameObject card;
-    public GameObject cardField;
-    //public GameObject winPanel;
-    private List<GameObject> cards = new List<GameObject>();
-    private List<Button> buttons = new List<Button>();
-
-
-    private int index;
-   // private Card firstchoise;
-   // private Card secondchoise;
-    private bool evaluating;
-
-    private int matches;
-    private int totalMatches;
+    [SerializeField] int score;
 
     [SerializeField]private ProgressData progressData;
 
-    //public AudioSource mainAudioSource;
-    //public AudioSource audioSourceone;
-    //public AudioSource audioSourcetwo;
-    //public AudioClip goodAudio;
-    //public AudioClip wrongAudio;
 
+    [SerializeField] private TextMeshProUGUI scoreText;
+    public ProgressData progressData11;
+    public float playerPosX, playerPosY, playerPosZ;
+    public PlayerController playerPosition;
     public void SaveProgress()
     {
         string json = JsonUtility.ToJson(progressData);
@@ -52,15 +36,35 @@ public class GameManager : MonoBehaviour
         progressData = JsonUtility.FromJson<ProgressData>(SaveData.Load("progressdata2.json"));
     }
 
-    void Start()
+    public void SaveGameProgress()
     {
-       
-
-    }
-    void AddListeners()
-    {
-       
+        playerPosX = playerPosition.transform.position.x;
+        playerPosY = playerPosition.transform.position.y;
+        playerPosZ = playerPosition.transform.position.z;
+        progressData11.saveData(score, playerPosX, playerPosY, playerPosZ);
     }
 
-   
+    void OnEnable()
+    {
+        PlayerController.OnCollisionItem += CurrentScore;
+    }
+    private void OnDisable()
+    {
+        PlayerController.OnCollisionItem -= CurrentScore;
+    }
+    private void Update()
+    {
+        scoreText.text = "Score: " + score;
+
+        if(score >= 100)
+        {
+            SaveGameProgress();
+        }
+    }
+    public void CurrentScore(int numb)
+    {
+        score = score + numb;
+
+
+    }
 }
