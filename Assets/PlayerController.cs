@@ -8,16 +8,15 @@ public class PlayerController : MonoBehaviour
 {
     private float _horizontal;
     [SerializeField] private Rigidbody2D myRBD;
-   // private float _vertical;
+
     [SerializeField] private float velocityModifier;
 
     [SerializeField] private float jumpForce;
 
-    [SerializeField] private int maxJumps = 2;  // Máximo número de saltos permitidos
+    [SerializeField] private int maxJumps = 2;  
     private int jumpCount = 0;
-    //private bool isGrounded = false;
 
-   // private GameObject _ghostPrefab;
+
     public static event Action<int> OnCollisionItem;
 
 
@@ -43,10 +42,10 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Comprobar si el objeto con el que se colisiona está en la capa del suelo
+      
         if (collision.gameObject.tag== "Ground")
         {
-           // Debug.Log("ground");
+
             jumpCount = 0;
 
         }
