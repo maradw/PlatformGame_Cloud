@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private int maxJumps = 2;  
     private int jumpCount = 0;
-
+    int life = 10;
 
     public static event Action<int> OnCollisionItem;
 
@@ -49,16 +49,19 @@ public class PlayerController : MonoBehaviour
             jumpCount = 0;
 
         }
+        
+        if (collision.gameObject.tag == "Coin")
+        {
+            OnCollisionItem?.Invoke(5);
+            Destroy(collision.gameObject);
+            Debug.Log("Coin");
+        }
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.tag == "Coin")
-        {
-            OnCollisionItem?.Invoke(5);
-            Destroy(collision);
-        }
+        
     }
     void Update()
     {
